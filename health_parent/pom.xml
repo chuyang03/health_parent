@@ -12,6 +12,7 @@
         <module>health_interface</module>
         <module>health_service_provider</module>
         <module>health_backend</module>
+        <module>health_backend</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -19,7 +20,7 @@
     <properties>
         <junit.version>4.12</junit.version>
         <spring.version>5.1.1.RELEASE</spring.version>
-        <pagehelper.version>5.1.2</pagehelper.version>
+        <pagehelper.version>4.0.0</pagehelper.version>
         <servlet-api.version>2.5</servlet-api.version>
         <dubbo.version>2.5.3</dubbo.version>
         <zookeeper.version>3.4.7</zookeeper.version>
