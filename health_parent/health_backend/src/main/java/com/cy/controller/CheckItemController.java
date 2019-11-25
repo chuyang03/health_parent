@@ -2,6 +2,8 @@ package com.cy.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.cy.constant.MessageConstant;
+import com.cy.entity.PageResult;
+import com.cy.entity.QueryPageBean;
 import com.cy.entity.Result;
 import com.cy.pojo.CheckItem;
 import com.cy.service.CheckItemService;
@@ -30,5 +32,14 @@ public class CheckItemController {
             return new Result(false, MessageConstant.ADD_CHECKITEM_FAIL);
         }
         return new Result(true, MessageConstant.ADD_CHECKITEM_SUCCESS);
+    }
+
+    //检查项分页查询
+    @RequestMapping("/findPage")
+    public PageResult findPage(@RequestBody QueryPageBean queryPageBean){
+
+        PageResult pageResult = checkItemService.pageQuery(queryPageBean);
+
+        return pageResult;
     }
 }
