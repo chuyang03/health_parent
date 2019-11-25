@@ -12,26 +12,25 @@
         <module>health_interface</module>
         <module>health_service_provider</module>
         <module>health_backend</module>
-        <module>health_backend</module>
     </modules>
     <packaging>pom</packaging>
 
     <!-- 集中定义依赖版本号 -->
     <properties>
         <junit.version>4.12</junit.version>
-        <spring.version>5.1.1.RELEASE</spring.version>
+        <spring.version>5.0.5.RELEASE</spring.version>
         <pagehelper.version>4.0.0</pagehelper.version>
         <servlet-api.version>2.5</servlet-api.version>
-        <dubbo.version>2.5.3</dubbo.version>
+        <dubbo.version>2.6.0</dubbo.version>
         <zookeeper.version>3.4.7</zookeeper.version>
         <zkclient.version>0.1</zkclient.version>
         <mybatis.version>3.4.6</mybatis.version>
         <mybatis.spring.version>1.3.1</mybatis.spring.version>
         <mybatis.paginator.version>1.2.15</mybatis.paginator.version>
-        <mysql.version>5.1.32</mysql.version>
-        <druid.version>1.0.9</druid.version>
+        <mysql.version>8.0.15</mysql.version>
+        <druid.version>1.1.12</druid.version>
         <commons-fileupload.version>1.3.1</commons-fileupload.version>
-        <spring.security.version>5.1.1.RELEASE</spring.security.version>
+        <spring.security.version>5.0.5.RELEASE</spring.security.version>
         <poi.version>3.14</poi.version>
         <jedis.version>2.9.0</jedis.version>
         <quartz.version>2.2.2</quartz.version>
