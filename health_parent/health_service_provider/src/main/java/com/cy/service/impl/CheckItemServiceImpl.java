@@ -53,4 +53,35 @@ public class CheckItemServiceImpl implements CheckItemService {
 
         return new PageResult(total, rows);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        //在删除该检查项之前需要判断，当前检查项是否关联到检查组中，如果关联了则不能直接删除
+        long count = checkItemDao.findCountByCheckItemId(id);
+
+        if (count > 0){
+            new RuntimeException();
+        }
+
+        checkItemDao.deleteById(id);
+    }
+
+    //批量删除
+    @Override
+    public void deleteByIds(Integer[] ids) {
+
+        checkItemDao.deleteByIds(ids);
+    }
+
+    @Override
+    public void edit(CheckItem checkItem) {
+        checkItemDao.edit(checkItem);
+    }
+
+    @Override
+    public CheckItem findById(Integer id) {
+        return checkItemDao.findById(id);
+    }
+
+
 }

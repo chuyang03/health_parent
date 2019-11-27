@@ -42,4 +42,69 @@ public class CheckItemController {
 
         return pageResult;
     }
+
+    //检查项删除
+    @RequestMapping("/delete")
+    public Result delete(Integer id){
+
+        try {
+            checkItemService.deleteById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            //如果捕获到异常，说明调用远程服务不成功
+            return new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
+        }
+        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
+    }
+
+    //检查项批量删除
+    @RequestMapping("/deleteByIds")
+    public Result deleteByIds(Integer[] ids){
+
+        try {
+
+            checkItemService.deleteByIds(ids);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            //如果捕获到异常，说明调用远程服务不成功
+            return new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
+        }
+        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
+    }
+
+
+    //编辑检查项
+    @RequestMapping("/edit")
+    public Result edit(@RequestBody CheckItem checkItem){
+
+        try {
+            checkItemService.edit(checkItem);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            //如果捕获到异常，说明调用远程服务不成功
+            return new Result(false, MessageConstant.EDIT_CHECKITEM_FAIL);
+        }
+        return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
+
+    //查询检查项数据用于编辑表单数据回显
+    @RequestMapping("/findById")
+    public Result findById(Integer id){
+
+        try {
+            CheckItem checkItem = checkItemService.findById(id);
+
+            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkItem);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            //如果捕获到异常，说明调用远程服务不成功
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+
+    }
 }

@@ -9,11 +9,64 @@
         (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
     </insert>
 
+    <!--分页显示-->
     <select id="selectByCondition" parameterType="String" resultType="com.cy.pojo.CheckItem">
         select * from t_checkitem
         <if test="value != null and value.length > 0">
             <!--根据项目编号或者项目名称进行查询-->
             where code = #{value} or name = #{value}
         </if>
+    </select>
+    <select id="findCountByCheckItemId" parameterType="int" resultType="long">
+        select count(*) from t_checkgroup_checkitem where checkitem_id = #{checkitem_id}
+    </select>
+
+    <delete id="deleteById" parameterType="int" >
+        delete from t_checkitem where id = #{id}
+    </delete>
+
+    <!--    批量删除  collection="array"  如果传进来的参数是数组就写array，穿的参数是list，那类型就写list-->
+    <delete id="deleteByIds" parameterType="list" >
+        delete from t_checkitem where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="edit" parameterType="com.cy.pojo.CheckItem">
+        update t_checkitem
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+            <!--这个后面的逗号, set标签会自动处理隐去-->
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="findById" parameterType="int" resultType="com.cy.pojo.CheckItem">
+        select * from t_checkitem where id = #{id}
     </select>
 </mapper>
