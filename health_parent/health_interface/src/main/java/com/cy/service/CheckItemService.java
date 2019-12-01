@@ -5,6 +5,8 @@ import com.cy.entity.QueryPageBean;
 import com.cy.entity.Result;
 import com.cy.pojo.CheckItem;
 
+import java.util.List;
+
 //服务接口
 public interface CheckItemService {
 
@@ -19,4 +21,6 @@ public interface CheckItemService {
     public CheckItem findById(Integer id);
 
     public void deleteByIds(Integer[] ids);
+
+    public List<CheckItem> findAll();
 }

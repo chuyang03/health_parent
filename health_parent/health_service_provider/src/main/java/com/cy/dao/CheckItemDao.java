@@ -3,6 +3,8 @@ package com.cy.dao;
 import com.cy.pojo.CheckItem;
 import com.github.pagehelper.Page;
 
+import java.util.List;
+
 public interface CheckItemDao {
 
     public void add(CheckItem checkItem);
@@ -21,4 +23,6 @@ public interface CheckItemDao {
     public CheckItem findById(Integer id);
 
     public void deleteByIds(Integer[] ids);
+
+    public List<CheckItem> findAll();
 }

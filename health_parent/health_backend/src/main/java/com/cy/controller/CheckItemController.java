@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/checkitem")
 public class CheckItemController {
@@ -99,6 +101,23 @@ public class CheckItemController {
             CheckItem checkItem = checkItemService.findById(id);
 
             return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkItem);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            //如果捕获到异常，说明调用远程服务不成功
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+
+    }
+
+    //查询所有检查项
+    @RequestMapping("/findAll")
+    public Result findAll(){
+
+        try {
+            List<CheckItem> list = checkItemService.findAll();
+
+            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, list);
         } catch (Exception e) {
             e.printStackTrace();
 
