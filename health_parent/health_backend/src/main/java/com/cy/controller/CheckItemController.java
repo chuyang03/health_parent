@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+/**
+ *
+ * 检查项管理页面
+ */
 @RestController
 @RequestMapping("/checkitem")
 public class CheckItemController {
@@ -126,4 +129,6 @@ public class CheckItemController {
         }
 
     }
+
+
 }

@@ -23,4 +23,6 @@ public interface CheckItemService {
     public void deleteByIds(Integer[] ids);
 
     public List<CheckItem> findAll();
+
+
 }

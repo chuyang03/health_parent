@@ -13,7 +13,9 @@
     </resultMap>
 
     <resultMap id="findByIdResultMap" type="com.cy.pojo.CheckGroup" extends="baseResultMap">
-        <collection property="checkItems" column="id" ofType="com.cy.pojo.CheckItem" select="com.itheima.dao.CheckItemDao.findCheckItemById"></collection>
+        <collection property="checkItems" column="id" ofType="com.cy.pojo.CheckItem" select="com.itheima.dao.CheckItemDao.findCheckItemById">
+
+        </collection>
     </resultMap>
 
     <sql id="allColumns">
@@ -37,6 +39,63 @@
           values
         (#{checkGroupId},#{checkItemId})
     </insert>
+    <!--如果输入参数是基本数据类型，#{value} 中的变量可以随便写，但是<if test="value >标签中的变量必须写成value-->
+    <select id="findByCondition" parameterType="string" resultType="com.cy.pojo.CheckGroup">
 
+        select * from t_checkgroup
+        <if test="value != null and value != '' and value.length > 0">
+            where code = #{value} or name = #{value} or helpCode = #{value}
+        </if>
+    </select>
 
+    <select id="findById" parameterType="int" resultType="com.cy.pojo.CheckGroup">
+
+        select * from t_checkgroup where id = #{id}
+    </select>
+
+    <select id="findCheckItemIdsByCheckGroupId" parameterType="int" resultType="int">
+
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{checkGroupId}
+    </select>
+
+<!--    根据检查组ID删除与该检查组相关联的所有关系-->
+    <delete id="deleteAssociation" parameterType="int">
+
+        delete from t_checkgroup_checkitem where checkgroup_id = #{checkGroupId}
+    </delete>
+
+    <update id="update" parameterType="com.cy.pojo.CheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="helpCode != null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="remark != null">
+                <!--这个后面的逗号, set标签会自动处理隐去-->
+                remark = #{remark},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--删除检查组-->
+    <delete id="deleteById" parameterType="int">
+        delete from t_checkgroup where id = #{id}
+    </delete>
+
+    <select id="findAll" resultType="com.cy.pojo.CheckGroup">
+        select * from t_checkgroup
+    </select>
 </mapper>

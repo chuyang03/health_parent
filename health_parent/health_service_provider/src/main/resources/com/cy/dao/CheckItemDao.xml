@@ -73,4 +73,6 @@
     <select id="findAll" resultType="com.cy.pojo.CheckItem">
         select * from t_checkitem
     </select>
+
+
 </mapper>

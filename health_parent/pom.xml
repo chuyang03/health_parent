@@ -169,9 +169,10 @@
             </dependency>
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
-                <artifactId>quartz-jobs</artifactId>
+                <artifactId>quartz</artifactId>
                 <version>${quartz.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-client</artifactId>

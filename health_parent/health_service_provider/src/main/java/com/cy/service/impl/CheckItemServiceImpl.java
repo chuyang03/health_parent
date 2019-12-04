@@ -56,6 +56,8 @@ public class CheckItemServiceImpl implements CheckItemService {
 
     @Override
     public void deleteById(Integer id) {
+
+        //这个查询语句从检查项和检查组的关联表中查询，如果有数据，说明当前将要删除的检查项关联了一个检查组，那么就不能删除这个检查项
         //在删除该检查项之前需要判断，当前检查项是否关联到检查组中，如果关联了则不能直接删除
         long count = checkItemDao.findCountByCheckItemId(id);
 
@@ -77,6 +79,7 @@ public class CheckItemServiceImpl implements CheckItemService {
     public List<CheckItem> findAll() {
         return checkItemDao.findAll();
     }
+
 
     @Override
     public void edit(CheckItem checkItem) {

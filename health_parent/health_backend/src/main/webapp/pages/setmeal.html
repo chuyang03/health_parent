@@ -159,6 +159,8 @@
                                             </el-row>
                                             <el-row>
                                                 <el-col :span="24">
+                                                    <!--点击上传图片，图片会先上传到七牛云，然后从后台拿的七牛云图片的地址，进行页面回显-->
+                                                    <!--点击上传图片，会发送这个请求-->
                                                     <el-form-item label="上传图片">
                                                         <el-upload
                                                                 class="avatar-uploader"
@@ -168,6 +170,7 @@
                                                                 :show-file-list="false"
                                                                 :on-success="handleAvatarSuccess"
                                                                 :before-upload="beforeAvatarUpload">
+                                                            <!--图片上传到七牛云之后，拿到云存储图片的地址，然后显示预览-->
                                                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                                                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                         </el-upload>
@@ -252,7 +255,10 @@
             methods: {
                 //文件上传成功后的钩子，response为服务端返回的值，file为当前上传的文件封装成的js对象
                 handleAvatarSuccess(response, file) {
-                    this.imageUrl = "http://prd9dr86k.bkt.clouddn.com/"+response.data;
+                    //alert(JSON.stringify(response));
+                    //这个地方的response，相当于框架封装了后台返回的对象数据，相当于之前ajax返回的response.data
+                    //response.data   后台填充的数据就是图片的名字
+                    this.imageUrl = "http://q1zpdbcsv.bkt.clouddn.com/"+response.data;
                     this.formData.img = response.data;
                     this.$message({
                         message:response.message,
@@ -310,6 +316,7 @@
                 },
                 // 弹出添加窗口
                 handleCreate() {
+                    //重置表单
                     this.resetForm();
                     this.dialogFormVisible = true;
                     //发送ajax请求获取所有的检查组信息，展示到窗口中

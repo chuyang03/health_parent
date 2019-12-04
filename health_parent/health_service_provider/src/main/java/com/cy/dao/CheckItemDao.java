@@ -25,4 +25,6 @@ public interface CheckItemDao {
     public void deleteByIds(Integer[] ids);
 
     public List<CheckItem> findAll();
+
+
 }

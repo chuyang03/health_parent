@@ -77,6 +77,8 @@
                         </el-table-column>
                     </el-table>
                     <div class="pagination-container">
+                        <!-- @current-change="handleCurrentChange"
+                        点击某一页，就调用这个方法，将当前页码传递过去，在进行分页查询显示当前页面数据-->
                         <el-pagination
                             class="pagiantion"
                             @current-change="handleCurrentChange"
@@ -272,7 +274,7 @@
                     queryString:null,
                 },
                 dataList: [],//列表数据
-                formData: {},//表单数据
+                formData: {},//表单数据,当填写表单的时候，数据直接填充到这个对象里面，json格式
                 tableData:[],//新增和编辑表单中对应的检查项列表数据
                 checkitemIds:[],//新增和编辑表单中检查项对应的复选框，基于双向绑定可以进行回显和数据提交
                 dialogFormVisible: false,//控制添加窗口显示/隐藏
@@ -282,7 +284,8 @@
                 this.findPage();
             },
             methods: {
-                //编辑
+                //编辑,在对检查组信息编辑之后，点击确定按钮提交表单更新数据库，
+                //提交的表单数据包括（检查组基本信息，勾选的检查项）
                 handleEdit() {
                     //发送ajax请求，将修改后的数据提交
                     axios.post("/checkgroup/edit.do?checkitemIds=" + this.checkitemIds,this.formData).then((res)=>{
@@ -330,15 +333,16 @@
                 findPage() {
                     //构造分页查询的参数
                     var param = {
+                        //当前页码，当前页面显示多少条数据，查询条件
                         currentPage:this.pagination.currentPage,
                         pageSize:this.pagination.pageSize,
                         queryString:this.pagination.queryString
                     };
                     //发送ajax请求，进行分页查询
                     axios.post("/checkgroup/findPage.do",param).then((res)=>{
-                        //查询成功
-                        this.dataList = res.data.rows;
-                        this.pagination.total = res.data.total;
+                        //查询成功,返回的数据结果集包含两种数据
+                        this.dataList = res.data.rows;  //当前页展示的数据集合
+                        this.pagination.total = res.data.total; //总数据量
                     });
                 },
                 // 重置表单
@@ -363,25 +367,30 @@
                         }
                     });
                 },
-                // 弹出编辑窗口
+                // 弹出编辑窗口  里面的三个ajax请求没有大的先后顺序，也可以平行编写三个请求，只需要把数据查询出来
                 handleUpdate(row) {
                     this.activeName = 'first';
+                    //将这个标签属性设置为true，这个编辑框就会弹出来
                     this.dialogFormVisible4Edit = true;
-                    //回显基本信息
+                    //回显基本信息，查询出当前检查组的基本信息
                     axios.post("/checkgroup/findById.do?id="+row.id).then((res)=>{
+
+                        //res.data表示后台返回的一个Result对象，flag、message都是Result中的属性
                         if(res.data.flag){
                             //查询成功，可以回显
                             this.formData = res.data.data;
                             //发送ajax请求，查询所有检查项信息
                             axios.post("/checkitem/findAll.do").then((res)=>{
                                 if(res.data.flag){
+                                    //为模型数据赋值，通过VUE数据双向绑定进行信息的回显
                                     this.tableData = res.data.data;
                                     //发送ajax请求，根据当前检查组id查询其关联的检查项的id（可能有多个）
-                                    axios.post("/checkitem/findCheckItemIdsByCheckGroupId.do?checkGroupId="+row.id).then((res)=>{
+                                    axios.post("/checkgroup/findCheckItemIdsByCheckGroupId.do?checkGroupId="+row.id).then((res)=>{
                                         if(res.data.flag){
                                             this.checkitemIds = res.data.data;
                                         }
                                     });
+                                    //只要给这个数组属性赋值给检查项的id属性，他就能在回显数据的时候自动勾选复选框
                                     //this.checkitemIds = [28,29,30];
                                 }
                             });
@@ -393,11 +402,35 @@
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    //将当前页码封装到pagination对象中，以便于进行分页查询
                     this.pagination.currentPage = currentPage;
                     this.findPage();
                 },
                 // 删除
                 handleDelete(row) {
+
+                    //删除操作，如果要删除当前检查组，需要先去关联表，把相关数据都删除，然后在删除该检查组
+                    this.$confirm("你确定要删除当前数据吗？","提示信息",{type:"warning"}).then(()=>{
+                        //说明用户点击的是确定按钮
+                        //发送ajax请求，根据id删除检查组
+                        axios.get("/checkgroup/deleteById.do?id=" +row.id).then((response)=>{
+
+                            //response.data表示后台返回的一个Result对象，flag、message都是Result中的属性
+                            if(response.data.flag){
+                                //删除成功
+                                //提示信息
+                                this.$message({
+                                    message:response.data.message,
+                                    type:'success'
+                                });
+                                //分页查询
+                                this.findPage();
+                            }else{
+                                //删除失败
+                                this.$message.error(response.data.message);
+                            }
+                        });
+                    });
                 }
             }
         })
