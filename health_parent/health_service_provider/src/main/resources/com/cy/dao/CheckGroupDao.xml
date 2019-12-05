@@ -13,7 +13,7 @@
     </resultMap>
 
     <resultMap id="findByIdResultMap" type="com.cy.pojo.CheckGroup" extends="baseResultMap">
-        <collection property="checkItems" column="id" ofType="com.cy.pojo.CheckItem" select="com.itheima.dao.CheckItemDao.findCheckItemById">
+        <collection property="checkItems" column="id" ofType="com.cy.pojo.CheckItem" select="com.cy.dao.CheckItemDao.findCheckItemById">
 
         </collection>
     </resultMap>
@@ -39,6 +39,7 @@
           values
         (#{checkGroupId},#{checkItemId})
     </insert>
+
     <!--如果输入参数是基本数据类型，#{value} 中的变量可以随便写，但是<if test="value >标签中的变量必须写成value-->
     <select id="findByCondition" parameterType="string" resultType="com.cy.pojo.CheckGroup">
 

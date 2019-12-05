@@ -43,6 +43,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         Integer pageSize = queryPageBean.getPageSize();
         String queryString = queryPageBean.getQueryString();
 
+        //相当于给mybatis底层的sql语句添加limit，也就是编写sql的时候不需要写limit，但是这两个语句要在一起
         PageHelper.startPage(currentPage, pageSize);
         Page<CheckGroup> page = checkGroupDao.findByCondition(queryString);
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cy.dao.SetmealDao">
+    <resultMap id="baseResultMap" type="com.cy.pojo.Setmeal">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+    </resultMap>
+
+    <resultMap id="findByIdResultMap" extends="baseResultMap" type="com.cy.pojo.Setmeal">
+        <collection property="checkGroups" column="id" ofType="com.cy.pojo.CheckGroup"
+                    select="com.cy.dao.CheckGroupDao.selectCheckGroupsBySetmealId"></collection>
+    </resultMap>
+
+    <sql id="allColumns">
+        id,code,name,helpCode,sex,age,price,remark,attention,img
+    </sql>
+
+    <!--新增套餐-->
+    <insert id="add" parameterType="com.cy.pojo.Setmeal">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_setmeal(code,name,helpCode,sex,age,price,remark,attention,img)
+        values
+        (#{code},#{name},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+
+    <!--设置套餐和检查组关系   #{setmealId}  中间的变量要和map中的key一致-->
+    <insert id="setSetmealAndCheckGroup" parameterType="map">
+        insert into t_setmeal_checkgroup(setmeal_id,checkgroup_id)
+          values (#{setmealId},#{checkgroupId})
+    </insert>
+
+    <!--g根据条件进行查询，如果输入条件为空，就查询所有数据。套餐分页查询-->
+    <select id="fincByCondition" parameterType="string" resultType="com.cy.pojo.Setmeal">
+        select * from t_setmeal
+        <if test="vallue != null and value  != ''">
+            where code = #{value} or name = #{value} or helpCode = #{value}
+        </if>
+    </select>
+</mapper>

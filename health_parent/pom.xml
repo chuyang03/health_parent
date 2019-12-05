@@ -13,6 +13,7 @@
         <module>health_interface</module>
         <module>health_service_provider</module>
         <module>health_backend</module>
+        <module>health_jobs</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -34,7 +35,7 @@
         <spring.security.version>5.0.5.RELEASE</spring.security.version>
         <poi.version>3.14</poi.version>
         <jedis.version>2.9.0</jedis.version>
-        <quartz.version>2.2.2</quartz.version>
+        <quartz.version>2.2.1</quartz.version>
     </properties>
     <!-- 依赖管理标签  必须加 -->
     <dependencyManagement>
@@ -162,6 +163,8 @@
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons-fileupload.version}</version>
             </dependency>
+
+            <!-- 不知道什么原因导入不了 -->
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
@@ -169,7 +172,7 @@
             </dependency>
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
-                <artifactId>quartz</artifactId>
+                <artifactId>quartz-job</artifactId>
                 <version>${quartz.version}</version>
             </dependency>
 
