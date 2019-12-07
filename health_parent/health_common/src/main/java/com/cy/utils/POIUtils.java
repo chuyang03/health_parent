@@ -29,15 +29,17 @@ public class POIUtils {
         //获得Workbook工作薄对象
         Workbook workbook = getWorkBook(file);
         //创建返回对象，把每行中的值作为一个数组，所有行作为一个集合返回
+        //list中存放的元素是数组，每一个数组存放的是每一行的所有单元格的数据
         List<String[]> list = new ArrayList<String[]>();
         if(workbook != null){
+            //遍历所有sheet工作表
             for(int sheetNum = 0;sheetNum < workbook.getNumberOfSheets();sheetNum++){
                 //获得当前sheet工作表
                 Sheet sheet = workbook.getSheetAt(sheetNum);
                 if(sheet == null){
                     continue;
                 }
-                //获得当前sheet的开始行
+                //获得当前sheet的开始行，开始行的意思是从有数据的那一行开始
                 int firstRowNum  = sheet.getFirstRowNum();
                 //获得当前sheet的结束行
                 int lastRowNum = sheet.getLastRowNum();
@@ -52,8 +54,10 @@ public class POIUtils {
                     int firstCellNum = row.getFirstCellNum();
                     //获得当前行的列数
                     int lastCellNum = row.getPhysicalNumberOfCells();
+
+                    //存放每一行单元格数据的数组
                     String[] cells = new String[row.getPhysicalNumberOfCells()];
-                    //循环当前行
+                    //循环当前行，获得每个单元格，然后取出数据
                     for(int cellNum = firstCellNum; cellNum < lastCellNum;cellNum++){
                         Cell cell = row.getCell(cellNum);
                         cells[cellNum] = getCellValue(cell);
@@ -79,6 +83,7 @@ public class POIUtils {
             throw new IOException(fileName + "不是excel文件");
         }
     }
+
     public static Workbook getWorkBook(MultipartFile file) {
         //获得文件名
         String fileName = file.getOriginalFilename();
@@ -100,6 +105,7 @@ public class POIUtils {
         }
         return workbook;
     }
+
     public static String getCellValue(Cell cell){
         String cellValue = "";
         if(cell == null){

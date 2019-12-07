@@ -103,6 +103,7 @@
                                                         </template>
                                                     </template>
                                                 </template>
+                                                <!--遍历出来的日期，如果日期大于今天才显示设置预约人数的按钮，因为设置已经过去的时间没有意义-->
                                                 <button v-if="dayobject.day > today" @click="handleOrderSet(dayobject.day)" class="orderbtn">设置</button>
                                             </template>
 											
@@ -138,7 +139,7 @@
                 this.initData(null);
             },
             methods: {
-				//预约设置
+				//预约设置，设置可预约人数
                 handleOrderSet(day){
                     this.$prompt('请输入可预约人数', '预约设置', {
                         confirmButtonText: '确定',
@@ -146,6 +147,7 @@
                         inputPattern: /^[0-9]*[1-9][0-9]*$/,
                         inputErrorMessage: '只能输入正整数'
                     }).then(({ value }) => {
+                        //value是输入的值
                         //校验通过后并且点击确定按钮时执行此代码
                         //发送ajax请求，提交日期、可预约人数
                         var year = day.getFullYear();
@@ -156,7 +158,7 @@
                             number:value
                         }).then((res)=>{
                             if(res.data.flag){
-                                //刷新当前页
+                                //如果设置了预约人数，那么需要刷新当前页，重新从数据库查询预约的数据显示在页面上
                                 this.initData(this.formatDate(day.getFullYear(), day.getMonth() + 1, 1));
                                 this.$message({
                                     type: 'success',
@@ -189,6 +191,7 @@
                 },
 				//下载模板文件
                 downloadTemplate(){
+                    //把模版文件放在本地
                     window.location.href="../../template/ordersetting_template.xlsx";
                 },
 				//上传成功提示
@@ -214,7 +217,7 @@
                     } else {
                         var now = new Date();
                         var d = new Date(this.formatDate(now.getFullYear(), now.getMonth(), 1));
-                        d.setDate(35);
+                        d.setDate(42);
                         date = new Date(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
                     }
                     this.currentDay = date.getDate();
@@ -244,7 +247,7 @@
                         this.days.push(dayobject);//将日期放入data 中的days数组 供页面渲染使用
                     }
                     //其他周
-                    for (var i = 1; i <= 35 - this.currentWeek; i++) {
+                    for (var i = 1; i <= 42 - this.currentWeek; i++) {
                         var d = new Date(str);
                         d.setDate(d.getDate() + i);
                         var dayobject = {};//dayobject   {day:date,index:2}
@@ -294,7 +297,7 @@
 				//向后一个月
                 pickNext: function (year, month) {
                     var d = new Date(this.formatDate(year, month, 1));
-                    d.setDate(35);////获取指定天之后的日期
+                    d.setDate(42);////获取指定天之后的日期
                     this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
                 },
                 // 返回 类似 2016-01-02 格式的字符串
