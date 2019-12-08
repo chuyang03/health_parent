@@ -61,6 +61,20 @@ public class SetmealServiceImpl implements SetmealService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
+    @Override
+    public List<Setmeal> findAll() {
+
+        return setmealDao.findAll();
+    }
+
+    //根据套餐id查询套餐详情（套餐基本信息、套餐关联的多个检查组信息、检查组关联的多个检查项信息）
+    //所有实体类的关联属性都在mybatis中，使用关联查询完成
+    @Override
+    public Setmeal findById(Integer id) {
+
+        return setmealDao.findById(id);
+    }
+
     //设置套餐和检查组关联表，插入数据
     public void setSetmealAndCheckgroup(Integer setmealId, Integer[]checkgroupIds){
 

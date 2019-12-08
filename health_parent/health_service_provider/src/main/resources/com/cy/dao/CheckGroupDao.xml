@@ -12,8 +12,10 @@
         <result column="attention" property="attention"/>
     </resultMap>
 
+<!--    关联查询-->
     <resultMap id="findByIdResultMap" type="com.cy.pojo.CheckGroup" extends="baseResultMap">
-        <collection property="checkItems" column="id" ofType="com.cy.pojo.CheckItem" select="com.cy.dao.CheckItemDao.findCheckItemById">
+        <collection property="checkItems" column="id" ofType="com.cy.pojo.CheckItem"
+                    select="com.cy.dao.CheckItemDao.findCheckItemById">
 
         </collection>
     </resultMap>
@@ -98,5 +100,13 @@
 
     <select id="findAll" resultType="com.cy.pojo.CheckGroup">
         select * from t_checkgroup
+    </select>
+
+<!--  根据setmealId查询出关联的所有checkgroup信息  -->
+    <select id="selectCheckGroupsBySetmealId" parameterType="int" resultMap="findByIdResultMap">
+
+        select * from t_checkgroup where id in
+        (select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{setmealID})
+
     </select>
 </mapper>
