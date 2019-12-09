@@ -51,6 +51,7 @@
                                         data:['会员数量']
                                     },
                                     xAxis: {
+                                        //动态数据，需要后台返回月份，作为折线图的横坐标
                                         data: res.data.data.months
                                     },
                                     yAxis: {
@@ -59,6 +60,7 @@
                                     series: [{
                                         name: '会员数量',
                                         type: 'line',
+                                        //表示每个月的会员数量，根据月份，和每月的会员数量就能够画出折线图
                                         data: res.data.data.memberCount
                                     }]
                                 });

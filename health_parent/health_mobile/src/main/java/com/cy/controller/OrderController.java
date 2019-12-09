@@ -78,4 +78,21 @@ public class OrderController {
         }
 
     }
+
+    //根据预约id查询预约信息，包括预约体检人的信息、套餐信息
+    @RequestMapping("/findById")
+    public Result findById(Integer id){
+
+        try {
+            //最后将查询出来的预约信息先封装到map中，map中的key就是sql语句查询出来的数据表的列名
+            Map map = orderService.findById(id);
+
+            return new Result(true, MessageConstant.QUERY_ORDER_SUCCESS, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return new Result(false, MessageConstant.QUERY_ORDER_FAIL);
+        }
+
+    }
 }

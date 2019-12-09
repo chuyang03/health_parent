@@ -76,7 +76,7 @@
         where id = #{id}
     </update>
 
-    <!--根据日期统计会员数，统计指定日期之前的会员数-->
+    <!--根据日期统计会员数，统计指定日期之前的会员数     &lt;=   这表示小于等于的转义字符，如果直接写，可能会报错，和mybatis的标签符号冲突-->
     <select id="findMemberCountBeforeDate" parameterType="string" resultType="int">
         select count(id) from t_member where regTime &lt;= #{value}
     </select>
