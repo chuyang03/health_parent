@@ -129,6 +129,7 @@
                             }
                         });
                     },
+
                     //提交预约
                     submitOrder(){
                         //校验身份证号格式
@@ -139,8 +140,8 @@
                         //发送ajax请求，将预约信息、套餐信息提交
                         axios.post("/order/submit.do",this.orderInfo).then((response) => {
                             if(response.data.flag){
-                                //预约成功，跳转到预约成功页面
-                                window.location.href="orderSuccess.html?orderId=" + response.data.data.id;
+                                //预约成功，跳转到预约成功页面，后台返回的数据就是orderId，所以这里获取的data就是id
+                                window.location.href="orderSuccess.html?orderId=" + response.data.data;
                             }else{
                                 //预约失败，提示预约失败信息
                                 this.$message.error(response.data.message);
@@ -151,7 +152,7 @@
                 mounted(){
                     axios.post("/setmeal/findById.do?id=" + id).then((response) => {
                         this.setmeal = response.data.data;
-                        this.imgUrl = 'http://prd9dr86k.bkt.clouddn.com/' + this.setmeal.img;
+                        this.imgUrl = 'http://q1zpdbcsv.bkt.clouddn.com/' + this.setmeal.img;
                     });
                 }
             });

@@ -67,7 +67,7 @@
                         <li class="table-item" v-for="checkgroup in setmeal.checkGroups">
                             <div class="item flex2">{{checkgroup.name}}</div>
                             <div class="item flex3">
-                                <!--一个检查组包含许多检查项-->
+                                <!--一个检查组包含许多检查项，多个检查项都遍历出来放在这一个框里面-->
                                 <label v-for="checkitem in checkgroup.checkItems">
                                     {{checkitem.name}}
                                 </label>
