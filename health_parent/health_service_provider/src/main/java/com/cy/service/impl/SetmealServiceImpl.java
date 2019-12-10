@@ -75,6 +75,13 @@ public class SetmealServiceImpl implements SetmealService {
         return setmealDao.findById(id);
     }
 
+    //查询被预约的套餐，对应被预约的次数
+    @Override
+    public List<Map<String, Object>> findSetmealCount() {
+
+        return setmealDao.findSetmealCount();
+    }
+
     //设置套餐和检查组关联表，插入数据
     public void setSetmealAndCheckgroup(Integer setmealId, Integer[]checkgroupIds){
 

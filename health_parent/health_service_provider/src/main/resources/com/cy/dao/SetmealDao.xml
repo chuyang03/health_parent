@@ -69,4 +69,15 @@
 
         select * from t_setmeal where id = #{id}
     </select>
+
+    <!--查询setmealcount数据,根据预约表中的预约数据，根据其中的套餐id进行连表查询，统计套餐被预约了多少次
+        这个返回值，mybatis直接将map作为返回结果，因为每一条数据是一个map，最后返回的是一个元素为map的list
+
+    sql语句查询结果集的列名，封装到map中就是key值，取值的时候要严格按照这个列名去取数据
+    -->
+    <select id="findSetmealCount" resultType="java.util.Map">
+
+        select s.name name, count(o.id) value from t_order o, t_setmeal s
+        where o.setmeal_id = s.id group by s.name;
+    </select>
 </mapper>

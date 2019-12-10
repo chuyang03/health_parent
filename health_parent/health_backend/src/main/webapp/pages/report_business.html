@@ -100,30 +100,34 @@
         var vue = new Vue({
             el: '#app',
             data:{
+                //这个数据格式也是后台返回的数据格式
                 reportData:{
-                    reportDate:null,
-                    todayNewMember :0,
-                    totalMember :0,
-                    thisWeekNewMember :0,
-                    thisMonthNewMember :0,
-                    todayOrderNumber :0,
-                    todayVisitsNumber :0,
-                    thisWeekOrderNumber :0,
-                    thisWeekVisitsNumber :0,
-                    thisMonthOrderNumber :0,
-                    thisMonthVisitsNumber :0,
-                    hotSetmeal :[
+                    reportDate:null,            //对应报表日期
+                    todayNewMember :0,          //今日新增加的会员数量
+                    totalMember :0,             //总的会员数量
+                    thisWeekNewMember :0,       //本周新增加的会员数量
+                    thisMonthNewMember :0,      //这个月新增加的会员数
+                    todayOrderNumber :0,        //今日预约数
+                    todayVisitsNumber :0,       //今日到访数
+                    thisWeekOrderNumber :0,     //本周预约数
+                    thisWeekVisitsNumber :0,    //本周到访数
+                    thisMonthOrderNumber :0,    //本月预约数
+                    thisMonthVisitsNumber :0,   //本月到访数
+                    hotSetmeal :[               //热门套餐
                         {name:'阳光爸妈升级肿瘤12项筛查（男女单人）体检套餐',setmeal_count:200,proportion:0.222},
                         {name:'阳光爸妈升级肿瘤12项筛查体检套餐',setmeal_count:200,proportion:0.222}
                     ]
                 }
             },
             created() {
+                //获取报表数据
                 axios.get("/report/getBusinessReportData.do").then((res)=>{
                     this.reportData = res.data.data;
                 });
             },
             methods:{
+
+                //导出运营数据报表
                 exportExcel(){
                     window.location.href = '/report/exportBusinessReport.do';
                 }

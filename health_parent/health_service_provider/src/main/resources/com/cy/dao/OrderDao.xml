@@ -75,7 +75,9 @@
         select count(id) from t_order where orderDate &gt;= #{value} and orderStatus = '已到诊'
     </select>
 
-    <!--热门套餐，查询前4条-->
+    <!--热门套餐，查询前4条
+    当前套餐被预约的次数，和总的预约次数相除，就是当前套餐占的百分比
+    proportion表示占比的别名-->
     <select id="findHotSetmeal" resultType="map">
         select s.name, count(o.id) setmeal_count ,count(o.id)/(select count(id) from t_order) proportion
           from t_order o inner join t_setmeal s on s.id = o.setmeal_id
