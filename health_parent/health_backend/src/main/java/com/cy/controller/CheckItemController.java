@@ -7,6 +7,7 @@ import com.cy.entity.QueryPageBean;
 import com.cy.entity.Result;
 import com.cy.pojo.CheckItem;
 import com.cy.service.CheckItemService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +50,7 @@ public class CheckItemController {
     }
 
     //检查项删除
+    @PreAuthorize("hasAuthority('CHECKITEM_DELETE')")   //      权限校验，如果登录用户没有删除权限则不能进行删除
     @RequestMapping("/delete")
     public Result delete(Integer id){
 
